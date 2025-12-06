@@ -80,11 +80,11 @@ export default async function PropertyLandingPage({
                 </div>
               )}
             </div>
-            <Button size="lg" className="mt-4" asChild>
-              <a href="#contact">
+            <a href="#contact">
+              <Button size="lg" className="mt-4">
                 {property.ctaText || "Schedule a Viewing"}
-              </a>
-            </Button>
+              </Button>
+            </a>
           </div>
         </div>
       </section>
