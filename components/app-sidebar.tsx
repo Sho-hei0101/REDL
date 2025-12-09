@@ -81,7 +81,6 @@ export function AppSidebar() {
           type="button"
           variant="outline"
           className="w-full justify-start"
-          // ← クライアント用 signOut。内部でCSRFも含めて処理してくれる
           onClick={() => signOut({ callbackUrl: "/login" })}
         >
           <LogOut className="h-5 w-5 mr-3" />
