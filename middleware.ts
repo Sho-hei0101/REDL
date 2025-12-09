@@ -1,31 +1,12 @@
-import { auth } from "@/auth"
-import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export default auth((req) => {
-  const { pathname } = req.nextUrl
-  const isLoggedIn = !!req.auth
-
-  // Public routes
-  const isPublicRoute = pathname.startsWith('/p/') || pathname === '/login'
-
-  // Protected app routes
-  const isProtectedRoute = pathname.startsWith('/app')
-
-  if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  }
-
-  if (pathname === '/login' && isLoggedIn) {
-    return NextResponse.redirect(new URL('/app/dashboard', req.url))
-  }
-
-  if (pathname === '/' && isLoggedIn) {
-    return NextResponse.redirect(new URL('/app/dashboard', req.url))
-  }
-
-  return NextResponse.next()
-})
-
-export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+// 👇 ここでは「何も判断しないでそのまま通す」だけ
+export function middleware(_req: NextRequest) {
+  return NextResponse.next();
 }
+
+// 必要なら /app 配下だけに適用してもOK（なくても動く）
+export const config = {
+  matcher: ["/app/:path*"],
+};
