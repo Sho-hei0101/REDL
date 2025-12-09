@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "@/auth"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -56,6 +57,7 @@ export function AppSidebar() {
         <Building2 className="h-6 w-6 text-primary mr-2" />
         <span className="font-bold text-xl">RE CRM</span>
       </div>
+
       <nav className="flex-1 space-y-1 p-4">
         {routes.map((route) => (
           <Link
@@ -73,8 +75,15 @@ export function AppSidebar() {
           </Link>
         ))}
       </nav>
+
       <div className="border-t p-4">
-        <form action="/api/auth/signout" method="POST">
+        {/* 🔥安全なサインアウト（CSRF対応済み）🔥 */}
+        <form
+          action={async () => {
+            "use server"
+            await signOut({ redirectTo: "/login" })
+          }}
+        >
           <Button
             type="submit"
             variant="outline"
