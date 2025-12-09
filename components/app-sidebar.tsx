@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/auth"
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -77,22 +77,16 @@ export function AppSidebar() {
       </nav>
 
       <div className="border-t p-4">
-        {/* 🔥安全なサインアウト（CSRF対応済み）🔥 */}
-        <form
-          action={async () => {
-            "use server"
-            await signOut({ redirectTo: "/login" })
-          }}
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full justify-start"
+          // ← クライアント用 signOut。内部でCSRFも含めて処理してくれる
+          onClick={() => signOut({ callbackUrl: "/login" })}
         >
-          <Button
-            type="submit"
-            variant="outline"
-            className="w-full justify-start"
-          >
-            <LogOut className="h-5 w-5 mr-3" />
-            Sign Out
-          </Button>
-        </form>
+          <LogOut className="h-5 w-5 mr-3" />
+          Sign Out
+        </Button>
       </div>
     </div>
   );
